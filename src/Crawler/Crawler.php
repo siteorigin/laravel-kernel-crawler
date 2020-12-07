@@ -62,7 +62,7 @@ class Crawler
     public function start()
     {
         $kernel = app()->make(HttpKernel::class);
-        $this->observers->each(fn($observer) => $observer->beforeCrawlStart($kernel));
+        $this->observers->each(fn($observer) => $observer->crawlStarting($this, $kernel));
 
         while(true) {
             $nextUrl = $this->queue->getUnprocessedUrl();

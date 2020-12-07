@@ -29,7 +29,7 @@ abstract class CrawlObserver
         $this->command = $command;
     }
 
-    public function beforeCrawlStart(HttpKernel $kernel)
+    public function crawlStarting(Crawler $crawler, HttpKernel $kernel)
     {
         // Do anything we need to
     }
