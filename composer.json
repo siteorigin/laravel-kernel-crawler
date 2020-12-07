@@ -6,7 +6,8 @@
     "require": {
         "php": "^7.4",
         "laravel/framework": "^8.0",
-        "symfony/dom-crawler": "^5.2"
+        "symfony/dom-crawler": "^5.2",
+        "icamys/php-sitemap-generator": "^2.0"
     },
     "require-dev": {
         "orchestra/testbench": "^6.5"

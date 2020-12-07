@@ -83,7 +83,7 @@ class Crawler
             }
 
             $this->addUrlsFromResponse($response);
-            $nextUrl->setProcessed(true);
+            $nextUrl['processed'] = true;
         }
 
         $this->observers->each(fn($observer) => $observer->crawlCompleted($this));

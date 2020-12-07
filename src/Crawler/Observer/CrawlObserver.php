@@ -3,6 +3,7 @@
 namespace SiteOrigin\KernelCrawler\Crawler\Observer;
 
 use Exception;
+use Illuminate\Console\Command;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use SiteOrigin\KernelCrawler\Crawler\Crawler;
@@ -12,9 +13,19 @@ abstract class CrawlObserver
 {
     protected Crawler $crawler;
 
+    protected Command $command;
+
     public function setCrawler(Crawler $crawler)
     {
         $this->crawler = $crawler;
+    }
+
+    /**
+     * @param \Illuminate\Console\Command $command
+     */
+    public function setCommand(Command $command)
+    {
+        $this->command = $command;
     }
 
     /**

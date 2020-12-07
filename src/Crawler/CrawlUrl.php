@@ -35,11 +35,6 @@ class CrawlUrl implements ArrayAccess
         $this->{$offset} = null;
     }
 
-    public function setProcessed($status = true)
-    {
-        $this->processed = $status;
-    }
-
     public function __toString(): string
     {
         return $this->url;

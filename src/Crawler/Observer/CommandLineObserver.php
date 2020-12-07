@@ -13,7 +13,7 @@ class CommandLineObserver extends CrawlObserver
     /**
      * @var \Illuminate\Console\Command
      */
-    private Command $command;
+    protected Command $command;
 
     public function __construct(Command $command)
     {
