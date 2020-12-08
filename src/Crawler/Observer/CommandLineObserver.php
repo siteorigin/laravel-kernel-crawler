@@ -10,16 +10,6 @@ use SiteOrigin\KernelCrawler\Crawler\CrawlUrl;
 
 class CommandLineObserver extends CrawlObserver
 {
-    /**
-     * @var \Illuminate\Console\Command
-     */
-    protected Command $command;
-
-    public function __construct(Command $command)
-    {
-        $this->command = $command;
-    }
-
     public function afterRequest(CrawlUrl $url, Request $request, Response $response)
     {
         $this->command->info('Processed: ' . $url);
@@ -27,9 +17,8 @@ class CommandLineObserver extends CrawlObserver
 
     public function crawlCompleted(Crawler $crawler)
     {
-
         $this->command->info('===============');
         $this->command->info('Crawl Completed');
-        $this->command->info('Pages processed: ' . $crawler->getQueue()->count());
+        $this->command->info('Pages processed: ' . $crawler->getQueue()->countKnown());
     }
 }

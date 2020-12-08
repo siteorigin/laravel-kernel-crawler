@@ -27,7 +27,10 @@
         "laravel" : {
             "providers": [
                 "SiteOrigin\\KernelCrawler\\KernelCrawlerServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Crawler": "SiteOrigin\\KernelCrawler\\Facades\\Crawler"
+            }
         }
     }
 }

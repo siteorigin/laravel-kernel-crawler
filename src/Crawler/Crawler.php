@@ -2,11 +2,13 @@
 
 namespace SiteOrigin\KernelCrawler\Crawler;
 
+use Illuminate\Console\Command;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use SiteOrigin\KernelCrawler\Crawler\Observer\CrawlObserver;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -16,7 +18,18 @@ class Crawler
     protected CrawlQueue $queue;
     protected Collection $observers;
 
-    public function __construct(array $startUrls)
+    protected array $observerAliases = [];
+    protected bool $isCrawling = false;
+
+    public function __construct(array $startUrls = [])
+    {
+        $this->reset($startUrls);
+    }
+
+    /**
+     * @param array $startUrls
+     */
+    public function reset(array $startUrls = [])
     {
         $this->queue = (new CrawlQueue())->addNewUrls($startUrls);
         $this->observers = new Collection();
@@ -37,14 +50,48 @@ class Crawler
     /**
      * Add an observer/
      *
-     * @param \SiteOrigin\KernelCrawler\Crawler\Observer\CrawlObserver $observer
+     * @param \SiteOrigin\KernelCrawler\Crawler\Observer\CrawlObserver|string $observer
+     * @param \Illuminate\Console\Command|null $command
      * @return $this
      */
-    public function addObserver(CrawlObserver $observer): Crawler
+    public function addObserver($observer, ?Command $command = null): Crawler
     {
-        $observer->setCrawler($this);
-        $this->observers->push($observer);
+        // See if we can resolve a class from a string input
+        if (is_string($observer)) {
+            if(isset($this->observerAliases[$observer]) && class_exists($this->observerAliases[$observer])) {
+                $observer = new $this->observerAliases[$observer];
+            }
+            elseif (class_exists($observer)) {
+                $observer = new $observer;
+            }
+        }
+
+        // By this point, we should have a CrawlObserver object
+
+        if (is_subclass_of($observer, CrawlObserver::class)){
+            $observer->setCrawler($this);
+            if (!is_null($command)) $observer->setCommand($command);
+            $this->observers->push($observer);
+        }
+        else {
+            throw new InvalidArgumentException(
+                'Observer must be an alias, classname, or CrawlObserver object. ' .
+                '"' . (is_string($observer) ? $observer : get_class($observer)) . '" given.'
+            );
+        }
+
         return $this;
+    }
+
+    /**
+     * Alias an observer.
+     *
+     * @param $name
+     * @param $classname
+     */
+    public function aliasObserver($name, $classname)
+    {
+        $this->observerAliases[$name] = $classname;
     }
 
     protected function prepareUrlForRequest(string $uri): string
@@ -61,6 +108,7 @@ class Crawler
      */
     public function start()
     {
+        $this->isCrawling = true;
         $kernel = app()->make(HttpKernel::class);
         $this->observers->each(fn($observer) => $observer->crawlStarting($this, $kernel));
 
@@ -88,6 +136,7 @@ class Crawler
         }
 
         $this->observers->each(fn($observer) => $observer->crawlCompleted($this));
+        $this->isCrawling = false;
     }
 
     /**
@@ -115,5 +164,10 @@ class Crawler
     public function getQueue()
     {
         return $this->queue;
+    }
+
+    public function isCrawling()
+    {
+        return $this->isCrawling;
     }
 }

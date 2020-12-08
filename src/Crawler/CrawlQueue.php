@@ -64,4 +64,9 @@ class CrawlQueue extends Collection
     {
         return $this->shift();
     }
+
+    public function countKnown(): int
+    {
+        return count($this->knownUrls);
+    }
 }
