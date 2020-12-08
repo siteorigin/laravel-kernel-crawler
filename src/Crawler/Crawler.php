@@ -18,7 +18,7 @@ class Crawler
 
     public function __construct(array $startUrls)
     {
-        $this->queue = (new CrawlQueue())->addUrlsArray($startUrls);
+        $this->queue = (new CrawlQueue())->addNewUrls($startUrls);
         $this->observers = new Collection();
     }
 
@@ -30,7 +30,7 @@ class Crawler
      */
     public function addUrlsToQueue(array $urls): Crawler
     {
-        $this->queue->addUrlsArray($urls);
+        $this->queue->addNewUrls($urls);
         return $this;
     }
 
@@ -65,7 +65,7 @@ class Crawler
         $this->observers->each(fn($observer) => $observer->crawlStarting($this, $kernel));
 
         while(true) {
-            $nextUrl = $this->queue->getUnprocessedUrl();
+            $nextUrl = $this->queue->shiftUrl();
             if (empty($nextUrl)) break;
 
             // Get the response
@@ -106,7 +106,7 @@ class Crawler
 
         $newUrls = array_unique($newUrls);
 
-        $this->queue->addUrlsArray($newUrls);
+        $this->queue->addNewUrls($newUrls);
     }
 
     /**

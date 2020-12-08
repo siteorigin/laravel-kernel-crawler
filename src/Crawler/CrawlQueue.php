@@ -38,19 +38,21 @@ class CrawlQueue extends Collection
      * @param array $urls A list of URLs
      * @return \SiteOrigin\KernelCrawler\Crawler\CrawlQueue
      */
-    public function addUrlsArray(array $urls): CrawlQueue
+    public function addNewUrls(array $urls): CrawlQueue
     {
         $new = collect($urls)
             // Convert to paths, and remove any URLs that aren't from this site.
             ->map(fn($url) => static::convertToPath($url))
             ->filter()
             // Reject any that already exist
-            ->reject(fn($url) => isset($this->knownUrls[$url]))
+            ->reject(fn($url) => !empty($this->knownUrls[$url]))
             // Push all the new URLs to the end of this collection
             ->each(function($url){
                 $this->knownUrls[$url] = true;
                 $this->push(new CrawlUrl($url));
             });
+
+        //echo $new->count() . ':' . $this->count() . "\n";
 
         return $this;
     }
@@ -58,8 +60,8 @@ class CrawlQueue extends Collection
     /**
      * @return \SiteOrigin\KernelCrawler\Crawler\CrawlUrl
      */
-    public function getUnprocessedUrl(): ?CrawlUrl
+    public function shiftUrl(): ?CrawlUrl
     {
-        return $this->where('processed', false)->first();
+        return $this->shift();
     }
 }
