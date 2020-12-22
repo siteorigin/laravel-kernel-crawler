@@ -8,7 +8,7 @@ use SiteOrigin\KernelCrawler\Exchange;
 
 class CrawlSite extends Command
 {
-    protected $signature = 'crawler:start {--observer=* : Observer name or alias} {--silent}';
+    protected $signature = 'crawler:start';
     protected $description = "Crawl the site, starting with the given URL.";
 
     public function handle()
@@ -16,7 +16,6 @@ class CrawlSite extends Command
         // Create a new crawler with the home URL as the starting point
         $crawler = new Crawler();
         $crawler
-            ->takeUntilTimeout(now()->addMinutes(5))
             ->each(function(Exchange $exchange){
                 $this->info('Crawled: ' . $exchange->request->url());
             });
