@@ -7,23 +7,22 @@ class Queue
     private array $items;
     private array $urls;
 
-    public function __construct(...$urls)
+    public function __construct(array $urls)
     {
         $this->items = [];
         $this->urls = [];
 
         if(!is_array($urls)) $urls = [$urls];
 
-        $this->push(...$urls);
+        $this->push($urls);
     }
 
     /**
      * @param array|mixed $urls
      * @return \SiteOrigin\KernelCrawler\Queue
      */
-    public function push(...$urls): Queue
+    public function push(array $urls): Queue
     {
-        if(!is_array($urls)) $urls = [$urls];
         $items = array_map(fn($url) => new Item($url), $urls);
 
         foreach ($items as $item) {

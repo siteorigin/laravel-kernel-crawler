@@ -8,6 +8,7 @@
     <title>Test Home Page</title>
 </head>
 <body>
+    <a href="{{route('home')}}">Home</a>
     <h1>{{ $article->title }}</h1>
     {!! $article->content !!}
     <p><a href="{{ route('articles.show', $article) }}">{{ $article->title }}</a></p>

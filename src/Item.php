@@ -7,12 +7,10 @@ use Illuminate\Support\Str;
 class Item
 {
     public string $url;
-    public bool $done;
 
     public function __construct(string $url)
     {
         $this->url = self::urlToPath($url);
-        $this->done = false;
     }
 
     /**

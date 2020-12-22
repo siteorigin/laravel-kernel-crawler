@@ -9,7 +9,7 @@ use SiteOrigin\KernelCrawler\Tests\App\ArticleController;
 Route::middleware(['bindings'])->group(function(){
     Route::get('/', function(){
         return view('home');
-    });
+    })->name('home');
 
     Route::get('articles', function(){
         return view('articles.index', [

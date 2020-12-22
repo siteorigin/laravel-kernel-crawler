@@ -20,11 +20,9 @@ class Crawler extends LazyCollection
      */
     private $kernel;
 
-    public function __construct(...$startingUrls)
+    public function __construct(array $startingUrls = ['/'])
     {
-        if(empty($startingUrls)) $startingUrls = ['/'];
-        $this->urlQueue = new Queue(...$startingUrls);
-
+        $this->urlQueue = new Queue($startingUrls);
         parent::__construct(Closure::fromCallable([$this, 'crawl']));
     }
 
@@ -64,6 +62,6 @@ class Crawler extends LazyCollection
             if($link->attr('href')) $newUrls[] = $link->attr('href');
         });
         $newUrls = array_unique($newUrls);
-        $this->urlQueue->push(...$newUrls);
+        $this->urlQueue->push($newUrls);
     }
 }
