@@ -17,6 +17,7 @@ class CrawlQueue extends Collection
      */
     public static function convertToPath($url)
     {
+        $url = url($url);
         $appUrl = config('app.url');
 
         // Remove external URLs
@@ -40,7 +41,7 @@ class CrawlQueue extends Collection
      */
     public function addNewUrls(array $urls): CrawlQueue
     {
-        $new = collect($urls)
+        collect($urls)
             // Convert to paths, and remove any URLs that aren't from this site.
             ->map(fn($url) => static::convertToPath($url))
             ->filter()
@@ -51,8 +52,6 @@ class CrawlQueue extends Collection
                 $this->knownUrls[$url] = true;
                 $this->push(new CrawlUrl($url));
             });
-
-        //echo $new->count() . ':' . $this->count() . "\n";
 
         return $this;
     }

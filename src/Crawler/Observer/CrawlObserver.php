@@ -8,7 +8,6 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use SiteOrigin\KernelCrawler\Crawler\Crawler;
 use SiteOrigin\KernelCrawler\Crawler\CrawlUrl;
-use App\Http\Kernel as HttpKernel;
 
 abstract class CrawlObserver
 {
@@ -29,7 +28,7 @@ abstract class CrawlObserver
         $this->command = $command;
     }
 
-    public function crawlStarting(Crawler $crawler, HttpKernel $kernel)
+    public function crawlStarting(Crawler $crawler, $kernel)
     {
         // Do anything we need to
     }

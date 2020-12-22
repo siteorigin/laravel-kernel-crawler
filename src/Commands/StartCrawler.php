@@ -13,7 +13,8 @@ class StartCrawler extends Command
     public function handle()
     {
         // Create a new crawler with the home URL as the starting point
-        Crawler::reset(['/']);
+        Crawler::reset();
+        Crawler::addUrlsToQueue(['/']);
 
         if (!$this->option('silent')) {
             Crawler::addObserver('info', $this);

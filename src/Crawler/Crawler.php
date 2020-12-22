@@ -21,17 +21,17 @@ class Crawler
     protected array $observerAliases = [];
     protected bool $isCrawling = false;
 
-    public function __construct(array $startUrls = [])
+    public function __construct()
     {
-        $this->reset($startUrls);
+        $this->reset();
     }
 
     /**
      * @param array $startUrls
      */
-    public function reset(array $startUrls = [])
+    public function reset()
     {
-        $this->queue = (new CrawlQueue())->addNewUrls($startUrls);
+        $this->queue = new CrawlQueue();
         $this->observers = new Collection();
     }
 
@@ -48,7 +48,7 @@ class Crawler
     }
 
     /**
-     * Add an observer/
+     * Add an observer.
      *
      * @param \SiteOrigin\KernelCrawler\Crawler\Observer\CrawlObserver|string $observer
      * @param \Illuminate\Console\Command|null $command
@@ -100,7 +100,7 @@ class Crawler
             $uri = substr($uri, 1);
         }
 
-        return trim(url($uri), '/');
+        return $uri == '/' ? url($uri) : trim(url($uri), '/');
     }
 
     /**
@@ -150,7 +150,7 @@ class Crawler
 
         $crawler = new DomCrawler($response->getContent());
         $crawler->filterXPath('//a')->each(function($link) use (& $newUrls){
-            $newUrls[] = $link->attr('href');
+            if($link->attr('href')) $newUrls[] = $link->attr('href');
         });
 
         $newUrls = array_unique($newUrls);

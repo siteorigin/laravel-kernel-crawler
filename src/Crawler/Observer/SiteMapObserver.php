@@ -6,7 +6,6 @@ use DateTime;
 use Icamys\SitemapGenerator\SitemapGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Date;
 use SiteOrigin\KernelCrawler\Crawler\Crawler;
 use SiteOrigin\KernelCrawler\Crawler\CrawlUrl;
 
