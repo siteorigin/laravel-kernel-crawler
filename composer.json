@@ -33,7 +33,7 @@
     "extras" : {
         "laravel" : {
             "providers": [
-                "SiteOrigin\\KernelCrawler\\KernelCrawlerServiceProvider"
+                "SiteOrigin\\KernelCrawler\\CrawlerServiceProvider"
             ],
             "aliases": {
                 "Crawler": "SiteOrigin\\KernelCrawler\\Facades\\Crawler"

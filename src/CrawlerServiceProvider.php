@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use SiteOrigin\KernelCrawler\Commands\CrawlSite;
 use SiteOrigin\KernelCrawler\Crawler\Crawler;
 
-class KernelCrawlerServiceProvider extends ServiceProvider
+class CrawlerServiceProvider extends ServiceProvider
 {
 
     public function register()

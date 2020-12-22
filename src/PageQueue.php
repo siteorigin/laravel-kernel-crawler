@@ -2,7 +2,7 @@
 
 namespace SiteOrigin\KernelCrawler;
 
-class Queue
+class PageQueue
 {
     private array $items;
     private array $urls;
@@ -19,11 +19,11 @@ class Queue
 
     /**
      * @param array|mixed $urls
-     * @return \SiteOrigin\KernelCrawler\Queue
+     * @return \SiteOrigin\KernelCrawler\PageQueue
      */
-    public function push(array $urls): Queue
+    public function push(array $urls): PageQueue
     {
-        $items = array_map(fn($url) => new Item($url), $urls);
+        $items = array_map(fn($url) => new Page($url), $urls);
 
         foreach ($items as $item) {
             // Skip URLs that are already in the queue
@@ -36,7 +36,7 @@ class Queue
         return $this;
     }
 
-    public function shift(): Item
+    public function shift(): Page
     {
         return array_shift($this->items);
     }

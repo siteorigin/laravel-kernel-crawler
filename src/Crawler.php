@@ -3,6 +3,7 @@
 namespace SiteOrigin\KernelCrawler;
 
 use Closure;
+use Generator;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 class Crawler extends LazyCollection
 {
 
-    public Queue $urlQueue;
+    public PageQueue $urlQueue;
 
     /**
      * @var \Illuminate\Support\HigherOrderCollectionProxy|mixed
@@ -22,11 +23,17 @@ class Crawler extends LazyCollection
 
     public function __construct(array $startingUrls = ['/'])
     {
-        $this->urlQueue = new Queue($startingUrls);
+        $this->urlQueue = new PageQueue($startingUrls);
         parent::__construct(Closure::fromCallable([$this, 'crawl']));
     }
 
-    private function crawl()
+    /**
+     * Generator function for
+     *
+     * @return \Generator
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    private function crawl(): Generator
     {
         if(empty($this->kernel)) $this->kernel = app()->make(HttpKernel::class);
 
@@ -43,6 +50,11 @@ class Crawler extends LazyCollection
         }
     }
 
+    /**
+     * Set the HttpKernel to use for requests.
+     *
+     * @param \Illuminate\Contracts\Http\Kernel|null $kernel
+     */
     public function setKernel(HttpKernel $kernel = null)
     {
         $this->kernel = $kernel;

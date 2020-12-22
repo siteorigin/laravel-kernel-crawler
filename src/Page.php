@@ -4,7 +4,7 @@ namespace SiteOrigin\KernelCrawler;
 
 use Illuminate\Support\Str;
 
-class Item
+class Page
 {
     public string $url;
 

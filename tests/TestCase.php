@@ -4,7 +4,7 @@ namespace SiteOrigin\KernelCrawler\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
-use SiteOrigin\KernelCrawler\KernelCrawlerServiceProvider;
+use SiteOrigin\KernelCrawler\CrawlerServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {
@@ -18,7 +18,7 @@ class TestCase extends OrchestraTestCase
     protected function getPackageProviders($app)
     {
         return [
-            KernelCrawlerServiceProvider::class
+            CrawlerServiceProvider::class
         ];
     }
 
