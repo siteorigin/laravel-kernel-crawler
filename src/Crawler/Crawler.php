@@ -152,7 +152,6 @@ class Crawler
         $crawler->filterXPath('//a')->each(function($link) use (& $newUrls){
             if($link->attr('href')) $newUrls[] = $link->attr('href');
         });
-
         $newUrls = array_unique($newUrls);
 
         $this->queue->addNewUrls($newUrls);

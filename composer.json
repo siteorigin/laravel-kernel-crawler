@@ -10,7 +10,9 @@
         "icamys/php-sitemap-generator": "^2.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.5"
+        "mockery/mockery": "^1.4",
+        "phpunit/phpunit": "^9.5",
+        "orchestra/testbench": "^6.7"
     },
     "authors": [
         {
@@ -21,6 +23,11 @@
     "autoload": {
         "psr-4": {
             "SiteOrigin\\KernelCrawler\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SiteOrigin\\KernelCrawler\\Tests\\": "tests/"
         }
     },
     "extras" : {
