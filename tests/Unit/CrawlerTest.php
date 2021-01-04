@@ -2,9 +2,6 @@
 
 namespace SiteOrigin\KernelCrawler\Tests\Unit;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Artisan;
 use SiteOrigin\KernelCrawler\Crawler;
 use SiteOrigin\KernelCrawler\Exchange;
 use SiteOrigin\KernelCrawler\Tests\App\Article;
