@@ -25,12 +25,13 @@ class Page
         $appUrl = config('app.url');
 
         // Remove external URLs
-        if (! Str::startsWith($url, [$appUrl, '/'])) {
+        if (! Str::startsWith($url, [$appUrl, '/', 'http://localhost'])) {
             return false;
         }
 
-        if (Str::startsWith($url, $appUrl)) {
+        if (Str::startsWith($url, [$appUrl, 'http://localhost'])) {
             $url = Str::replaceFirst($appUrl, '', $url);
+            $url = Str::replaceFirst('http://localhost', '', $url);
         }
 
         if(empty($url)) return '/';
