@@ -39,5 +39,7 @@
                 "Crawler": "SiteOrigin\\KernelCrawler\\Facades\\Crawler"
             }
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
