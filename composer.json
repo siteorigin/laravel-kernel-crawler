@@ -1,0 +1,45 @@
+{
+    "name": "siteorigin/laravel-kernel-crawler",
+    "description": "Crawls a Laravel site using internal Kernel.",
+    "type": "package",
+    "license": "MIT",
+    "require": {
+        "php": "^7.4",
+        "laravel/framework": "^8.0",
+        "symfony/dom-crawler": "^5.2",
+        "icamys/php-sitemap-generator": "^2.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.4",
+        "phpunit/phpunit": "^9.5",
+        "orchestra/testbench": "^6.7"
+    },
+    "authors": [
+        {
+            "name": "Greg Priday",
+            "email": "greg@siteorigin.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SiteOrigin\\KernelCrawler\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SiteOrigin\\KernelCrawler\\Tests\\": "tests/"
+        }
+    },
+    "extras" : {
+        "laravel" : {
+            "providers": [
+                "SiteOrigin\\KernelCrawler\\CrawlerServiceProvider"
+            ],
+            "aliases": {
+                "Crawler": "SiteOrigin\\KernelCrawler\\Facades\\Crawler"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
